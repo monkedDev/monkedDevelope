@@ -65,7 +65,3 @@
 - email: `monkeddev@inbox.ru` — копируется по клику
 - telegram: [@monkeddev](https://t.me/monkeddev)
 - github: [monkedDev](https://github.com/monkedDev)
-
----
-
-*последнее обновление: 2026-05-27*
