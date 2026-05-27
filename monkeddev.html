@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>monkedDev — сайты на заказ</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fefef7;
+      font-family: 'Courier New', 'Courier', 'IBM Plex Mono', monospace;
+      color: #1a1a1a;
+      line-height: 1.45;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(transparent, transparent 23px, rgba(0,0,0,0.04) 24px);
+      background-size: 100% 24px;
+      z-index: -2;
+    }
+
+    .sketch-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      background: transparent;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Indie Flower', 'Segoe Print', 'Comic Neue', cursive;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      transform: rotate(-0.3deg);
+    }
+
+    h1 {
+      font-size: 3.8rem;
+      margin-bottom: 0.25rem;
+      display: inline-block;
+      border-bottom: 3px dashed #111;
+      line-height: 1.1;
+      transform: rotate(-0.5deg);
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.03);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+      transform: rotate(-0.5deg);
+    }
+    h2:after {
+      content: "//";
+      position: absolute;
+      right: -2rem;
+      top: 0.2rem;
+      font-size: 1.6rem;
+      font-family: monospace;
+      font-weight: normal;
+      opacity: 0.5;
+      transform: rotate(5deg);
+    }
+
+    .doodle-underline {
+      width: 80px;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #111, #111 6px, transparent 6px, transparent 12px);
+      margin: 0.5rem 0 1rem 0;
+    }
+
+    .sketch-card {
+      background: transparent;
+      border: 2px solid #111;
+      padding: 1.8rem 1.5rem;
+      margin-bottom: 2rem;
+      transition: all 0.2s ease;
+      box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .sketch-card:nth-child(odd) { transform: rotate(0.4deg); }
+    .sketch-card:nth-child(even) { transform: rotate(-0.3deg); }
+    .sketch-card:hover {
+      transform: rotate(0deg) translate(2px, 2px);
+      box-shadow: 2px 2px 0px 0px #111;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.8rem;
+      margin: 1rem 0 1rem 0;
+    }
+    .skill-item {
+      border: 1.5px solid #111;
+      padding: 1.2rem;
+      background: white;
+      transition: all 0.15s linear;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transform: rotate(var(--rot, 0deg));
+      box-shadow: 3px 3px 0 #ddd;
+    }
+    .skill-item:nth-child(1) { --rot: -0.2deg; }
+    .skill-item:nth-child(2) { --rot: 0.6deg; }
+    .skill-item:nth-child(3) { --rot: -0.4deg; }
+    .skill-item:nth-child(4) { --rot: 0.3deg; }
+    .skill-item:hover {
+      transform: rotate(0deg) scale(0.99);
+      background: #fcfcf0;
+      box-shadow: 1px 1px 0 #111;
+    }
+
+    .skill-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      stroke: #111;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-weight: bold;
+      color: #111;
+      border: 1.5px solid #111;
+      padding: 0.8rem 1.6rem;
+      background: white;
+      transition: 0.1s linear;
+      transform: rotate(var(--r, -0.2deg));
+    }
+    .contact-link:nth-child(1) { --r: -0.5deg; }
+    .contact-link:nth-child(2) { --r: 0.7deg; }
+    .contact-link:nth-child(3) { --r: -0.2deg; }
+    .contact-link:hover {
+      background: #111;
+      color: #fefef7;
+      transform: rotate(0deg) translate(-2px, -2px);
+    }
+    .contact-link:hover .contact-svg { stroke: #fefef7; }
+    .contact-svg {
+      width: 22px;
+      height: 22px;
+      stroke: #111;
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .btn-doodle {
+      display: inline-block;
+      border: 2px solid #111;
+      background: white;
+      padding: 0.7rem 1.4rem;
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #111;
+      margin-top: 0.5rem;
+      transition: 0.08s linear;
+      transform: rotate(0.2deg);
+      cursor: pointer;
+      box-shadow: 3px 3px 0 #ccc;
+    }
+    .btn-doodle:hover {
+      background: #111;
+      color: white;
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      border-left: 3px solid #111;
+      padding-left: 1rem;
+      margin: 0.5rem 0 1rem;
+      transform: rotate(-0.1deg);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    footer {
+      margin-top: 3rem;
+      border-top: 2px dotted #111;
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      transform: rotate(-0.2deg);
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 1.2rem; }
+      h1 { font-size: 2.4rem; }
+      .skills-grid { gap: 1rem; }
+      .contact-link { padding: 0.5rem 1.2rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="sketch-container">
+  
+  <!-- шапка с логотипом и именем monkedDev -->
+  <div class="hero-doodle">
+    <div class="monkey-logo" style="display: inline-flex; align-items: center; gap: 1rem; margin: 1rem 0 0.5rem;">
+      <!-- НОРМАЛЬНЫЙ ЛОГОТИП: обезьяна + код -->
+      <svg width="70" height="70" viewBox="0 0 100 100" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="50" cy="50" r="28" stroke="#111" fill="white"/>
+        <circle cx="22" cy="42" r="10" stroke="#111" fill="white"/>
+        <circle cx="78" cy="42" r="10" stroke="#111" fill="white"/>
+        <line x1="32" y1="38" x2="44" y2="40" stroke="#111"/>
+        <line x1="68" y1="38" x2="56" y2="40" stroke="#111"/>
+        <circle cx="36" cy="46" r="3" fill="#111"/>
+        <circle cx="64" cy="46" r="3" fill="#111"/>
+        <polygon points="48,54 52,54 50,58" stroke="#111" fill="white"/>
+        <path d="M44 66 Q50 70 56 66" stroke="#111" fill="none"/>
+        <rect x="28" y="40" width="16" height="12" rx="2" stroke="#111" fill="none"/>
+        <rect x="56" y="40" width="16" height="12" rx="2" stroke="#111" fill="none"/>
+        <line x1="44" y1="46" x2="56" y2="46" stroke="#111"/>
+        <text x="6" y="55" font-family="monospace" font-size="11" fill="#111" stroke="none">&lt;/&gt;</text>
+        <text x="80" y="55" font-family="monospace" font-size="11" fill="#111" stroke="none">{ }</text>
+      </svg>
+      <div>
+        <h1>monkedDev \\ сайты на заказ</h1>
+        <div class="doodle-underline"></div>
+        <div class="tagline">#код+красота</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- секция "о себе" -->
+  <div class="sketch-card">
+    <h2>• кто тут</h2>
+    <p style="margin-bottom: 0.5rem;">
+      <span style="background: #eee; border-left: 4px solid black; padding: 0.2rem 0.5rem;">monkedDev</span> — разработчик, который ценит чистоту и выразительность.  
+      Никакого глоу и перегруза. Просто честный стек:  
+      <strong>html / svg / js / css / sb3 / py / mkdd</strong>.  
+      Делаю сайты, интерфейсы, прототипы — без лишней мишуры, но с душой.
+    </p>
+    <div style="display: flex; justify-content: flex-end;">
+      <svg width="90" height="20" viewBox="0 0 200 10" style="opacity:0.5">
+        <path d="M5,5 L40,6 L70,4 L100,7 L130,5 L160,6 L195,4" stroke="#111" fill="none" stroke-width="1.2" stroke-dasharray="3 2"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- навыки / технологии -->
+  <div style="margin: 2rem 0 0.5rem;">
+    <h2>• чем работаю</h2>
+    <div class="doodle-underline" style="width: 110px;"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-item">
+      <svg class="skill-icon" viewBox="0 0 32 32">
+        <path d="M6,10 L12,6 L20,6 L26,10 L26,22 L20,26 L12,26 L6,22 L6,10Z" stroke="currentColor" fill="none"/>
+        <path d="M12,12 L16,8 L20,12 L20,20 L16,24 L12,20 L12,12Z" stroke="currentColor" fill="none"/>
+        <line x1="16" y1="12" x2="16" y2="20" stroke="currentColor"/>
+        <line x1="12" y1="16" x2="20" y2="16" stroke="currentColor"/>
+      </svg>
+      <div><strong>html + css + js</strong><br><span style="font-size: 0.8rem;">фронт, логика, адаптив</span></div>
+    </div>
+    <div class="skill-item">
+      <svg class="skill-icon" viewBox="0 0 32 32">
+        <rect x="7" y="10" width="18" height="14" rx="1" stroke="currentColor" fill="none"/>
+        <path d="M12 10 L16 6 L20 10" stroke="currentColor" fill="none"/>
+        <circle cx="12" cy="20" r="1.8" stroke="currentColor" fill="white"/>
+        <circle cx="20" cy="20" r="1.8" stroke="currentColor" fill="white"/>
+        <path d="M10 18 L14 18 M18 18 L22 18" stroke="currentColor"/>
+      </svg>
+      <div><strong>svg + графика</strong><br><span style="font-size: 0.8rem;">иконки, иллюстрации в коде</span></div>
+    </div>
+    <div class="skill-item">
+      <svg class="skill-icon" viewBox="0 0 32 32">
+        <path d="M6,8 L26,8 L26,24 L6,24 L6,8Z" stroke="currentColor" fill="none"/>
+        <path d="M12,12 L20,12 L20,20 L12,20 L12,12Z" stroke="currentColor" fill="none"/>
+        <circle cx="16" cy="16" r="1.5" fill="black" stroke="none"/>
+        <line x1="8" y1="14" x2="10" y2="14" stroke="currentColor"/>
+        <line x1="22" y1="14" x2="24" y2="14" stroke="currentColor"/>
+      </svg>
+      <div><strong>sb3 + py</strong><br><span style="font-size: 0.8rem;">скретч-прототипы, бэк-логика</span></div>
+    </div>
+    <div class="skill-item">
+      <svg class="skill-icon" viewBox="0 0 32 32">
+        <polygon points="16,4 28,12 28,24 16,28 4,24 4,12 16,4" stroke="currentColor" fill="none"/>
+        <circle cx="16" cy="16" r="4" stroke="currentColor" fill="white"/>
+        <path d="M12 12 L20 20 M20 12 L12 20" stroke="currentColor"/>
+      </svg>
+      <div><strong>mkdd + стиль</strong><br><span style="font-size: 0.8rem;">чёткий код, ч/б эстетика</span></div>
+    </div>
+  </div>
+
+  <!-- стек технологий в виде ленты -->
+  <div class="sketch-card" style="margin-top: 1rem; padding: 1.2rem 1.5rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.8rem;">
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem;">◈ html</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem; transform:rotate(0.4deg)">◈ svg</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem; transform:rotate(-0.6deg)">◈ js</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem;">◈ css</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem; transform:rotate(0.2deg)">◈ sb3</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem;">◈ py</span>
+      <span style="border:1px solid #111; padding:0.2rem 0.8rem; transform:rotate(-0.3deg)">◈ mkdd</span>
+    </div>
+    <p style="font-size: 0.8rem; margin-top: 1rem; border-top: 1px dotted #111; padding-top: 0.8rem;">
+      → никакого ИИ-лоска, только чистый код и продуманная подача.
+    </p>
+  </div>
+
+  <!-- примеры работ -->
+  <div style="margin: 1.2rem 0 0.5rem;">
+    <h2>• примеры</h2>
+    <div class="doodle-underline"></div>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; margin-bottom: 1rem;">
+    <div style="border: 1.5px solid #111; padding: 0.8rem; flex:1; min-width: 140px; background: white; transform: rotate(-0.1deg);">
+      <svg width="40" height="40" viewBox="0 0 40 40" style="margin-bottom: 6px;">
+        <rect x="4" y="10" width="32" height="20" stroke="#111" fill="white" stroke-width="1.5"/>
+        <line x1="12" y1="18" x2="28" y2="18" stroke="#111" stroke-width="1.5"/>
+        <line x1="16" y1="24" x2="24" y2="24" stroke="#111" stroke-width="1.5"/>
+        <path d="M20 6 L24 10 L16 10 L20 6Z" stroke="#111" fill="white"/>
+      </svg>
+      <div><strong>система компонентов</strong></div>
+      <div style="font-size:0.7rem;">html / css / js</div>
+    </div>
+    <div style="border: 1.5px solid #111; padding: 0.8rem; flex:1; min-width: 140px; background: white; transform: rotate(0.3deg);">
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <path d="M6,28 L20,8 L34,28 L20,34 L6,28Z" stroke="#111" fill="white" stroke-width="1.5"/>
+        <circle cx="20" cy="20" r="5" stroke="#111" fill="white" stroke-width="1.5"/>
+        <line x1="20" y1="15" x2="20" y2="25" stroke="#111"/>
+        <line x1="15" y1="20" x2="25" y2="20" stroke="#111"/>
+      </svg>
+      <div><strong>лого monkedDev</strong></div>
+      <div style="font-size:0.7rem;">svg + дизайн</div>
+    </div>
+    <div style="border: 1.5px solid #111; padding: 0.8rem; flex:1; min-width: 140px; background: white; transform: rotate(-0.5deg);">
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <path d="M8,20 L20,8 L32,20 L20,32 L8,20Z" stroke="#111" fill="white" stroke-width="1.5"/>
+        <path d="M20,14 L20,26 M14,20 L26,20" stroke="#111" stroke-width="1.8"/>
+      </svg>
+      <div><strong>скетч-прототип</strong></div>
+      <div style="font-size:0.7rem;">sb3 + py связка</div>
+    </div>
+  </div>
+
+  <!-- КОНТАКТЫ -->
+  <div style="margin-top: 2rem;">
+    <h2>• связаться</h2>
+    <div class="doodle-underline"></div>
+    <div class="contacts">
+      <a href="#" class="contact-link" id="mailBtn">
+        <svg class="contact-svg" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="1.5" stroke="currentColor" fill="none"/>
+          <path d="M5 7L12 13L19 7" stroke="currentColor" fill="none"/>
+        </svg>
+        <span>monkeddev@inbox.ru</span>
+      </a>
+      <a href="https://t.me/monkeddev" target="_blank" class="contact-link" id="tgLink">
+        <svg class="contact-svg" viewBox="0 0 24 24">
+          <path d="M20 5L9 13L4 11L20 5Z" stroke="currentColor" fill="none"/>
+          <path d="M20 5L15 19L11 14L9 13" stroke="currentColor" fill="none"/>
+        </svg>
+        <span>@monkeddev</span>
+      </a>
+      <a href="https://github.com/monkedDev" target="_blank" class="contact-link" id="ghLink">
+        <svg class="contact-svg" viewBox="0 0 24 24">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span>/monkedDev</span>
+      </a>
+    </div>
+    <div id="copyMsg" style="font-size:0.8rem; margin-top: 0.5rem; border-left: 2px solid black; padding-left: 0.5rem; visibility: hidden; opacity:0; transition:0.1s;">✎ скопировано</div>
+  </div>
+
+  <div style="margin: 2rem 0 1rem; text-align: right;">
+    <span class="btn-doodle" id="scrollBtn">→ контакты ниже</span>
+  </div>
+
+  <svg width="100%" height="20" viewBox="0 0 600 12" style="margin: 10px 0 0;">
+    <path d="M10,5 L90,6 L130,3 L190,7 L250,4 L310,8 L370,5 L430,7 L490,5 L550,4 L590,6" stroke="#111" stroke-width="1.2" fill="none" stroke-dasharray="4 3"/>
+  </svg>
+
+  <footer>
+    <p>monkedDev · #код+красота</p>
+    <p style="margin-top: 0.5rem;">html / svg / js / css / sb3 / py / mkdd — никакого глоу и смайлов</p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    const mailBtn = document.getElementById('mailBtn');
+    const copyMsgDiv = document.getElementById('copyMsg');
+    if(mailBtn) {
+      mailBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = 'monkeddev@inbox.ru';
+        navigator.clipboard.writeText(email).then(() => {
+          copyMsgDiv.style.visibility = 'visible';
+          copyMsgDiv.style.opacity = '1';
+          copyMsgDiv.innerText = '✓ почта скопирована: ' + email;
+          setTimeout(() => {
+            copyMsgDiv.style.opacity = '0';
+            copyMsgDiv.style.visibility = 'hidden';
+          }, 1800);
+        }).catch(() => {
+          copyMsgDiv.innerText = '✗ не скопировано, но почта: monkeddev@inbox.ru';
+          copyMsgDiv.style.visibility = 'visible';
+          copyMsgDiv.style.opacity = '1';
+          setTimeout(() => {
+            copyMsgDiv.style.opacity = '0';
+            copyMsgDiv.style.visibility = 'hidden';
+          }, 2000);
+        });
+      });
+    }
+
+    const scrollBtn = document.getElementById('scrollBtn');
+    if(scrollBtn) {
+      scrollBtn.addEventListener('click', () => {
+        const contactsSection = document.querySelector('.contacts');
+        if(contactsSection) {
+          contactsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const tempBorder = document.createElement('div');
+          tempBorder.style.position = 'fixed';
+          tempBorder.style.bottom = '20px';
+          tempBorder.style.right = '20px';
+          tempBorder.style.border = '1px solid black';
+          tempBorder.style.padding = '4px 8px';
+          tempBorder.style.background = 'white';
+          tempBorder.style.fontFamily = 'monospace';
+          tempBorder.style.fontSize = '12px';
+          tempBorder.innerText = '⇠ контакты';
+          document.body.appendChild(tempBorder);
+          setTimeout(() => tempBorder.remove(), 1200);
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>
